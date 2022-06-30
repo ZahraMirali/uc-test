@@ -1,23 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useRef, useState } from 'react';
 
 function App() {
+  const rerendersCount = useRef(0);
+  const mounted = useRef();
+
+  const [firstCounts, setFirstCounts] = useState(0);
+  const [secondCounts, setSecondCounts] = useState(0);
+
+  useEffect(() => {
+    if (!mounted.current) {
+      mounted.current = true;
+    } else {
+      rerendersCount.current++;
+    }
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {firstCounts}{' '}
+      <button onClick={() => setFirstCounts((prev) => prev + 1)}>
+        Increase First Count
+      </button>
+      <br />
+      <br />
+      {secondCounts}{' '}
+      <button onClick={() => setSecondCounts((prev) => prev + 1)}>
+        Increase Second Count
+      </button>
+      <br />
+      <br />
+      <br />
+      <br />
+      Rerenders Count = {rerendersCount.current}
     </div>
   );
 }
